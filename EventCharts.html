@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Overview & Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .chart-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1 1 calc(33% - 20px);
+            min-width: 250px;
+            max-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-top: 10px;
+            color: #ff7e5f;
+        }
+
+        canvas {
+            max-height: 180px;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .chart-box {
+                flex: 1 1 100%;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .chart-box {
+                min-width: 200px;
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart-container">
+
+        <!-- Row 1 -->
+        <div class="chart-row">
+
+            <div class="chart-box">
+                <canvas id="eventParticipantsByDateChart"></canvas>
+                <p class="chart-title">Participants Over Time</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="eventDurationChart"></canvas>
+                <p class="chart-title">Event Duration by Category</p>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="eventAttendanceStatusChart"></canvas>
+                <p class="chart-title">Event Attendance Status</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="eventCategoryDistributionChart"></canvas>
+                <p class="chart-title">Event Distribution by Category</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="eventRegistrationStatusChart"></canvas>
+                <p class="chart-title">Event Registration Status</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchChartData();
+        });
+
+        function fetchChartData() {
+            // Fetch Event Category Distribution Data
+            fetch('PHP/Events.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_event_categories'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const eventCategoryData = {
+                        labels: data.data.map(item => item.category),
+                        datasets: [{
+                            data: data.data.map(item => item.count),
+                            backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
+                            borderWidth: 1
+                        }]
+                    };
+                    const ctx1 = document.getElementById('eventCategoryDistributionChart').getContext('2d');
+                    new Chart(ctx1, {
+                        type: 'pie',
+                        data: eventCategoryData,
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Event Registration Status Data
+            fetch('PHP/EventRegistrations.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_registration_statuses'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const registrationStatusData = {
+                        labels: data.data.map(item => item.registration_status),
+                        datasets: [{
+                            data: data.data.map(item => item.count),
+                            backgroundColor: ['rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                            borderColor: ['rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    };
+                    const ctx2 = document.getElementById('eventRegistrationStatusChart').getContext('2d');
+                    new Chart(ctx2, {
+                        type: 'pie',
+                        data: registrationStatusData,
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Event Attendance Status Data
+            fetch('PHP/EventAttendance.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_attendance_statuses'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const attendanceStatusData = {
+                        labels: data.data.map(item => item.status),
+                        datasets: [{
+                            data: data.data.map(item => item.count),
+                            backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        }]
+                    };
+                    const ctx3 = document.getElementById('eventAttendanceStatusChart').getContext('2d');
+                    new Chart(ctx3, {
+                        type: 'pie',
+                        data: attendanceStatusData,
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Event Duration by Category Data
+            fetch('PHP/Events.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_event_durations'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const eventDurationData = {
+                        labels: data.data.map(item => item.category),
+                        datasets: [{
+                            label: 'Average Event Duration (hours)',
+                            data: data.data.map(item => item.avg_duration),
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            fill: false
+                        }]
+                    };
+                    const ctx5 = document.getElementById('eventDurationChart').getContext('2d');
+                    new Chart(ctx5, {
+                        type: 'line',
+                        data: eventDurationData,
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Participants Over Time Data
+            fetch('PHP/Events.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=fetch_participants_over_time'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const participantsOverTimeData = {
+                        labels: data.data.map(item => item.date),
+                        datasets: [{
+                            label: 'Participants Over Time',
+                            data: data.data.map(item => item.count),
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            fill: false
+                        }]
+                    };
+                    const ctx4 = document.getElementById('eventParticipantsByDateChart').getContext('2d');
+                    new Chart(ctx4, {
+                        type: 'line',
+                        data: participantsOverTimeData,
+                        options: { responsive: true }
+                    });
+                });
+        }
+        
+    </script>
+</body>
+
+</html>

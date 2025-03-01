@@ -1,0 +1,827 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    color: transparent;
+    padding: 20px 40px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    background-image: linear-gradient(135deg, #ff7e5f, #feb47b);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.container {
+    width: 93%;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #ff7e5f;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    text-align: left;
+    width: 14.2%;
+}
+
+table th {
+    background-color: #ff7e5f;
+    color: white;
+    text-align: center;
+}
+
+table th:first-child {
+    border-top-left-radius: 10px;
+}
+
+table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.action-buttons {
+    text-align: center;
+    width: 200px;
+}
+
+table a {
+    color: #ff7e5f;
+}
+
+button {
+    background: #ff7e5f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+button:hover {
+    background: #feb47b;
+}
+
+.RLM-Top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.RLM-Top input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.RLM-Top select {
+    padding: 10px;
+    width: 150px;
+    border: 0px;
+    border-radius: 5px;
+    border: 0.5px solid #ddd;
+}
+
+.BAS {
+    display: flex;
+    gap: 20px;
+}
+
+.BAS div {
+    flex: 1;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#infoOverlay,
+#bookingDetailsOverlay {
+    text-align: center;
+}
+
+#infoOverlay p,
+#bookingDetailsOverlay p {
+    margin: 15px 0px;
+}
+
+#infoOverlay h2,
+#bookingDetailsOverlay h2 {
+    margin: 15px 0px;
+}
+
+#infoOverlay button,
+#bookingDetailsOverlay button {
+    margin: 15px 0px;
+}
+
+.overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    max-height: 95vh;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.scrollable-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.overlay-content h2 {
+    margin-bottom: 15px;
+    color: #ff7e5f;
+}
+
+.overlay-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.overlay-content input,
+.overlay-content select,
+.overlay-content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-upload-label {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+#eventFiles {
+    display: none;
+}
+
+#task_file {
+    display: none;
+}
+
+.file-upload-info {
+    display: block;
+    margin-top: 3px;
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+}
+
+.BAS select {
+    width: 10%;
+}
+
+.BAS input,
+.BAS select,
+.BAS textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.notipre {
+    width: calc((100% - (2 * 10px)) / 3);
+    height: 150px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    color: #ff7e5f;
+}
+
+.notipre.active {
+    border-color: #ff7e5f;
+}
+
+.overlay-content button {
+    margin-right: 10px;
+}
+
+.overlay-content a {
+    color: #ff7e5f;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #ff7e5f;
+}
+
+.close-btn:hover {
+    color: #feb47b;
+}
+
+.scrollable-content::-webkit-scrollbar {
+    display: none;
+}
+
+.data-row {
+    margin-bottom: 10px;
+}
+
+.data-row-btn {
+    text-align: center;
+}
+
+.data-label {
+    font-weight: bold;
+    color: #ff7e5f;
+}
+
+.data-value {
+    color: #555;
+}
+
+.data-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.data-box {
+    flex: 1 1 250px;
+    max-width: 300px;
+    border: 1px solid #ff7e5f;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.data-box a {
+    color: #ff7e5f;
+}
+
+.calendar-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.calendar-container::-webkit-scrollbar {
+    display: none;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(100px, 1fr));
+    gap: 5px;
+    min-width: 800px;
+    align-items: center;
+}
+
+.calendar div {
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.calendar .header {
+    background: #ff7e5f;
+    color: white;
+}
+
+.calendar .week {
+    color: #ff7e5f;
+}
+
+.calendar div.available {
+    color: #4caf50;
+}
+
+.calendar div.booked {
+    color: #f44336;
+}
+
+.calendar div ul.time-ranges {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.calendar div ul.schedules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: center;
+    text-wrap: wrap;
+}
+
+.calendar div.available ul.time-ranges li {
+    color: #4caf50;
+}
+
+.calendar div.unavailable ul.schedules li {
+    color: black;
+}
+
+.calendar div.booked ul.time-ranges li {
+    color: #f44336;
+}
+
+.calendar div[title] {
+    position: relative;
+}
+
+.title {
+    font-size: 28px;
+    color: #ff7e5f;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.title::before,
+.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: #ff7e5f;
+}
+
+.title::before {
+    width: 18px;
+    height: 18px;
+    background-color: #ff7e5f;
+}
+
+.title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+}
+
+.message,
+.signin {
+    color: rgba(88, 87, 87, 0.822);
+    font-size: 14px;
+    margin: 10px 0px;
+}
+
+.message {
+    margin: 10px 0px;
+}
+
+.signin {
+    text-align: center;
+}
+
+.signin a {
+    color: #ff7e5f;
+    cursor: pointer;
+}
+
+select {
+    color: gray;
+}
+
+#RegistrationForm button {
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+}
+
+#RegistrationForm input {
+    border-radius: 10px;
+    padding: 10px;
+    color: gray;
+}
+
+#RegistrationForm select {
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#SignInForm button {
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+}
+
+#SignInForm input {
+    border-radius: 10px;
+    padding: 10px;
+    color: gray;
+}
+
+#stack {
+    display: flex;
+}
+
+.stack {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.stack .input {
+    width: 12%;
+    text-align: center;
+}
+
+.OTP {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chart-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.chart-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1 1 calc(33% - 20px);
+    min-width: 250px;
+    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-title {
+    text-align: center;
+    margin-top: 10px;
+    color: #ff7e5f;
+}
+
+canvas {
+    max-height: 180px;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .chart-box {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width: 375px) {
+    .chart-box {
+    min-width: 200px;
+    max-height: 250px;
+    }
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 850px) {
+    .overlay-content {
+        width: 400px;
+    }
+}
+
+@media (max-width: 350px) {
+    .overlay-content {
+        width: 90%;
+    }
+}
+
+.index-global-reset {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.index-page-container {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.index-header {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: transparent;
+    background-image: linear-gradient(135deg, #ff7e5f, #feb47b);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.index-container {
+    text-align: center;
+    z-index: 2;
+}
+
+.index-sign-in-button {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.index-sign-in-button:hover {
+    background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    transform: scale(1.05);
+}
+
+.index-sign-in-button:active {
+    transform: scale(0.95);
+}
+
+.index-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    z-index: 1;
+}
+
+.index-footer a {
+    color: #333;
+    text-decoration: none;
+}
+
+.index-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../Images/Index.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+@media (max-width: 768px) {
+    .calendar div {
+        font-size: 12px;
+        text-wrap: wrap;
+    }
+
+    .calendar div ul.time-ranges {
+        font-size: 10px;
+    }
+
+    .calendar div ul.schedules {
+        font-size: 10px;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(8, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar div {
+        padding: 5px;
+    }
+
+    .calendar div ul.time-ranges {
+        font-size: 8px;
+    }
+
+    .calendar div ul.schedules {
+        font-size: 8px;
+    }
+}
+
+@media (max-width: 850px) {
+    .overlay-content {
+        width: 90%;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    table th,
+    table td {
+        text-align: left;
+        width: 100%;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+        text-align: left;
+        width: 100%;
+    }
+
+    td:before {
+        display: block;
+        font-weight: bold;
+        content: attr(data-label);
+        margin-bottom: 5px;
+        color: #ff7e5f;
+    }
+
+    .action-buttons {
+        width: 100%;
+        text-align: center;
+    }
+
+    .RLM-Top input {
+        width: 100%;
+    }
+
+    .RLM-Top button {
+        width: 100%;
+    }
+
+    .RLM-Top {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .BAS div {
+        width: 100%;
+    }
+
+    .BAS table {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1100px) {
+    .BAS {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 851px) {
+    .scrollable-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .scrollable-table tbody {
+        display: block;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 0px solid #ccc;
+    }
+
+    .scrollable-table thead {
+        display: table;
+        width: 100%;
+    }
+
+    .scrollable-table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+}

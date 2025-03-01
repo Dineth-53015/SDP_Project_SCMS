@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Calendar</title>
+</head>
+
+<body>
+    <div class="calendar-container" id="calendar-container">
+        <div class="calendar">
+            
+        </div>
+    </div>
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('PHP/Schedules.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=fetch_schedules_for_calendar'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Received Data:', data);
+            if (data.success) {
+                const organizedSchedules = data.data;
+                const calendarContainer = document.getElementById('calendar-container');
+                const currentDate = new Date();
+                const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+                // Create the calendar div
+                const calendarDiv = document.createElement('div');
+                calendarDiv.className = 'calendar';
+                calendarContainer.appendChild(calendarDiv);
+
+                // Add headers for days of the week
+                const weekHeader = document.createElement('div');
+                weekHeader.className = 'header';
+                weekHeader.textContent = 'Week';
+                calendarDiv.appendChild(weekHeader);
+
+                daysOfWeek.forEach(day => {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'header';
+                    dayHeader.textContent = day;
+                    calendarDiv.appendChild(dayHeader);
+                });
+
+                for (let week = 0; week < 4; week++) {
+                    const weekStart = new Date(currentDate);
+                    weekStart.setDate(currentDate.getDate() + (week * 7) - currentDate.getDay());
+
+                    // Add Week Header
+                    const weekHeaderDiv = document.createElement('div');
+                    weekHeaderDiv.className = 'week';
+                    weekHeaderDiv.textContent = `Week ${week + 1}`;
+                    calendarDiv.appendChild(weekHeaderDiv);
+
+                    for (let day = 0; day < 7; day++) {
+                        const currentDay = new Date(weekStart);
+                        currentDay.setDate(weekStart.getDate() + day);
+                        const dateString = currentDay.toISOString().split('T')[0];
+
+                        const dayContainer = document.createElement('div');
+                        if (organizedSchedules[dateString]) {
+                            dayContainer.className = 'available';
+                            const ul = document.createElement('ul');
+                            ul.className = 'schedules';
+                            organizedSchedules[dateString].forEach(schedule => {
+                                const liTitle = document.createElement('li');
+                                liTitle.textContent = schedule.Title;
+                                const liTime = document.createElement('li');
+                                liTime.textContent = `${schedule.StartTime} - ${schedule.EndTime}`;
+                                liTime.style.color = '#f44336';
+                                ul.appendChild(liTitle);
+                                ul.appendChild(liTime);
+                            });
+                            dayContainer.appendChild(ul);
+                        } else {
+                            dayContainer.className = 'unavailable';
+                            const ul = document.createElement('ul');
+                            ul.className = 'schedules';
+                            const li = document.createElement('li');
+                            li.textContent = 'No Schedules';
+                            ul.appendChild(li);
+                            dayContainer.appendChild(ul);
+                        }
+                        calendarDiv.appendChild(dayContainer);
+                    }
+                }
+            } else {
+                console.error('Failed to fetch schedules:', data.message);
+            }
+        })
+        .catch(error => console.error('Error fetching schedules:', error));
+    });
+
+    </script>
+</body>
+
+</html>

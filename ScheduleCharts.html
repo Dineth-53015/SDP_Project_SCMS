@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Overview & Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="chart-container">
+
+        <!-- Row 1 -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="eventsScheduledPerDayChart"></canvas>
+                <p class="chart-title">Events Scheduled Per Day</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="eventDurationByTypeChart"></canvas>
+                <p class="chart-title">Event Duration by Schedule Type</p>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="recurringVsNonRecurringChart"></canvas>
+                <p class="chart-title">Recurring vs Non-Recurring Events</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="roomUtilizationChart"></canvas>
+                <p class="chart-title">Room Utilization</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="scheduleTypesDistributionChart"></canvas>
+                <p class="chart-title">Schedule Types Distribution</p>
+            </div>
+        </div>
+
+    </div>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchChartData('events_scheduled_per_day', 'eventsScheduledPerDayChart', 'line');
+            fetchChartData('event_duration_by_type', 'eventDurationByTypeChart', 'line');
+            fetchChartData('recurring_vs_non_recurring', 'recurringVsNonRecurringChart', 'pie');
+            fetchChartData('room_utilization', 'roomUtilizationChart', 'pie');
+            fetchChartData('schedule_types_distribution', 'scheduleTypesDistributionChart', 'pie');
+        });
+
+        function fetchChartData(chartType, canvasId, chartTypeVisual) {
+            fetch('PHP/Schedules.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `action=fetch_chart_data&chart_type=${chartType}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateChart(canvasId, chartTypeVisual, data.data);
+                } else {
+                    console.error('Failed to fetch chart data:', data.message);
+                }
+            })
+            .catch(error => console.error('Error fetching chart data:', error));
+        }
+
+        function updateChart(canvasId, chartType, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            let chartData;
+
+            switch (chartType) {
+                case 'line':
+                    chartData = {
+                        labels: data.map(item => item.date || item.schedule_type),
+                        datasets: [{
+                            label: canvasId === 'eventsScheduledPerDayChart' ? 'Events Scheduled' : 'Average Duration (hours)',
+                            data: data.map(item => item.count || item.avg_duration),
+                            borderColor: canvasId === 'eventsScheduledPerDayChart' ? 'rgba(75, 192, 192, 1)' : 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2,
+                            fill: false
+                        }]
+                    };
+                    break;
+                case 'pie':
+                    chartData = {
+                        labels: data.map(item => item.is_recurring !== undefined ? (item.is_recurring ? 'Recurring' : 'Non-Recurring') : item.room_name || item.schedule_type),
+                        datasets: [{
+                            data: data.map(item => item.count),
+                            backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
+                            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                            borderWidth: 1
+                        }]
+                    };
+                    break;
+            }
+
+            new Chart(ctx, {
+                type: chartType === 'line' ? 'line' : 'pie',
+                data: chartData,
+                options: { responsive: true }
+            });
+        }
+        
+    </script>
+</body>
+</html>
