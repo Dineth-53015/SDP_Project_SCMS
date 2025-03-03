@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Overview & Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="chart-container">
+
+        <!-- Row 1 -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="coursesOverTimeChart"></canvas>
+                <p class="chart-title">Courses Created Over Time</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="enrollmentsOverTimeChart"></canvas>
+                <p class="chart-title">Enrollments Over Time</p>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <canvas id="courseDistributionChart"></canvas>
+                <p class="chart-title">Course Distribution by Faculty</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="enrollmentStatusChart"></canvas>
+                <p class="chart-title">Enrollment Status Distribution</p>
+            </div>
+            <div class="chart-box">
+                <canvas id="activeEnrollmentsChart"></canvas>
+                <p class="chart-title">Active Enrollments by Course</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Fetch Courses Created Over Time
+            fetch('PHP/Courses.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'fetch_courses_over_time' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const dates = data.data.map(item => item.date);
+                    const counts = data.data.map(item => item.count);
+
+                    const ctx = document.getElementById('coursesOverTimeChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Courses Created',
+                                data: counts,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 2,
+                                fill: false
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Enrollments Over Time
+            fetch('PHP/Enrollments.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'fetch_enrollments_over_time' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const dates = data.data.map(item => item.date);
+                    const counts = data.data.map(item => item.count);
+
+                    const ctx = document.getElementById('enrollmentsOverTimeChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                label: 'Enrollments',
+                                data: counts,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 2,
+                                fill: false
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Course Distribution by Faculty
+            fetch('PHP/Courses.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'fetch_course_distribution_by_faculty' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const faculties = data.data.map(item => item.faculty);
+                    const counts = data.data.map(item => item.count);
+
+                    const ctx = document.getElementById('courseDistributionChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: faculties,
+                            datasets: [{
+                                data: counts,
+                                backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Enrollment Status Distribution
+            fetch('PHP/Enrollments.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'fetch_enrollment_status_distribution' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const statuses = data.data.map(item => item.status);
+                    const counts = data.data.map(item => item.count);
+
+                    const ctx = document.getElementById('enrollmentStatusChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: statuses,
+                            datasets: [{
+                                data: counts,
+                                backgroundColor: ['rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                                borderColor: ['rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+
+            // Fetch Active Enrollments by Course
+            fetch('PHP/Enrollments.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'fetch_active_enrollments_by_course' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const courses = data.data.map(item => item.course_name);
+                    const counts = data.data.map(item => item.count);
+
+                    const ctx = document.getElementById('activeEnrollmentsChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: courses,
+                            datasets: [{
+                                data: counts,
+                                backgroundColor: ['rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                                borderColor: ['rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { responsive: true }
+                    });
+                });
+        });
+
+    </script>
+</body>
+
+</html>
