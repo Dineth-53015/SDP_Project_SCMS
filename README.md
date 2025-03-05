@@ -32,3 +32,17 @@ The goal of the Smart Campus Management System is to foster a more cooperative, 
 • Backend: PHP
 
 • Database: MySQL
+
+# Important
+
+To ensure proper functionality of the email system, you must place the PHPMailer folder into the following directory:
+
+xamp\php\pear
+
+Step 1: Copy the entire PHPMailer folder (not just the contents, but the folder itself).
+Step 2: Paste it into xamp\php\pear so that the final path looks like this:
+xamp\php\pear\PHPMailer
+
+Without the PHPMailer folder in this location, the email functionality will not work, and the system will not function properly. This step is essential for the system to operate as intended.
+
+PHPMailer Folder: https://drive.google.com/drive/folders/1hqnNzwuIrjSX4STMyLwp09zjjRz6-3mH?usp=sharing
