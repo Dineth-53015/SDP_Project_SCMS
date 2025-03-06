@@ -58,21 +58,23 @@
         </section>
 
         <!-- Notification Preference Section -->
-        <section id="NotificationPreference" class="card">
-            <h3>Notification Preference</h3>
-            <br>
-            <div class="BAS">
-                <div class="notipre" id="inApp" style="border-color: #ff7e5f;">
-                    <label>In App</label>
+        <?php if ($role === 'Student'): ?>
+            <section id="NotificationPreference" class="card">
+                <h3>Notification Preference</h3>
+                <br>
+                <div class="BAS">
+                    <div class="notipre" id="inApp" style="border-color: #ff7e5f;">
+                        <label>In App</label>
+                    </div>
+                    <div class="notipre"id="emailNoti">
+                        <label>Email</label>
+                    </div>
+                    <div class="notipre" id="smsNoti">
+                        <label>SMS</label>
+                    </div>
                 </div>
-                <div class="notipre"id="emailNoti">
-                    <label>Email</label>
-                </div>
-                <div class="notipre" id="smsNoti">
-                    <label>SMS</label>
-                </div>
-            </div>
-        </section>
+            </section>
+        <?php endif; ?>
     </div>
 
     <?php include 'Footer.html'?>
