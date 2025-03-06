@@ -97,7 +97,7 @@
                             ` : ''}
                             <div class="data-row">
                                 <div class="data-label">Attendance:</div>
-                                <div class="data-value">${schedule.attendance == '1' ? 'Attended' : schedule.attendance == '0' ? 'Not Attended' : 'Not Present'}</div>
+                                <div class="data-value">${schedule.attendance == '1' ? 'Attended' : schedule.attendance == '0' ? 'Absent' : 'Not Present'}</div>
                             </div>
                         `;
 
