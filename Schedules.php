@@ -111,6 +111,7 @@
                             <option value="Lab">Lab</option>
                             <option value="Tutorial">Tutorial</option>
                             <option value="Exam">Exam</option>
+                            <option value="Other">Other</option>
                         </select>
 
                         <label for="start_date">Start Date:</label>
@@ -176,6 +177,7 @@
                             <option value="Lab">Lab</option>
                             <option value="Tutorial">Tutorial</option>
                             <option value="Exam">Exam</option>
+                            <option value="Other">Other</option>
                         </select>
 
                         <label for="start_date">Start Date:</label>
