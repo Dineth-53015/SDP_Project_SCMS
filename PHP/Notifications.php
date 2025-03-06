@@ -25,7 +25,7 @@ try {
             SELECT title, message, created_at 
             FROM notifications 
             WHERE user_id = :user_id 
-            ORDER BY created_at DESC
+            ORDER BY created_at ASC
         ");
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
