@@ -36,6 +36,8 @@
 
     </div>
 
+    <?php include 'Chats.php'?>
+
     <?php include 'Footer.html'?>
     
 </body>
