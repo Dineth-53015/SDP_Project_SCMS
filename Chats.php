@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="Css/Chats.css">
 </head>
 <body>
-    <button class="chat-toggle-btn">Chat</button>
+    <button class="chat-toggle-btn">
+        <i class="fas fa-comment-dots"></i>
+    </button>
 
     <!-- Chat Overlay -->
     <div class="chat-overlay">
