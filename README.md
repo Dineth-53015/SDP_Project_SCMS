@@ -33,6 +33,15 @@ The goal of the Smart Campus Management System is to foster a more cooperative, 
 
 • Database: MySQL
 
+# Database Setup
+To ensure the system works seamlessly, follow these steps to set up the MySQL database:
+
+Step 1: Create a new MySQL database named scms. You can do this using the MySQL command line or a GUI tool like phpMyAdmin.
+
+Step 2: Import the provided database backup into your MySQL database.
+
+SQL File: https://drive.google.com/drive/folders/1MVMCsq3gEqnq418FAUIg7ENbPLh8xQRg?usp=sharing
+
 # Important
 
 To ensure proper functionality of the email system, you must place the PHPMailer folder into the following directory:
