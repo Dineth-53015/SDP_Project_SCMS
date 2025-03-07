@@ -49,6 +49,7 @@ To ensure proper functionality of the email system, you must place the PHPMailer
 xamp\php\pear
 
 Step 1: Copy the entire PHPMailer folder (not just the contents, but the folder itself).
+
 Step 2: Paste it into xamp\php\pear so that the final path looks like this:
 xamp\php\pear\PHPMailer
 
