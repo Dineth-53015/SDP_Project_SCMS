@@ -56,3 +56,15 @@ xamp\php\pear\PHPMailer
 Without the PHPMailer folder in this location, the email functionality will not work, and the system will not function properly. This step is essential for the system to operate as intended.
 
 PHPMailer Folder: https://drive.google.com/drive/folders/1hqnNzwuIrjSX4STMyLwp09zjjRz6-3mH?usp=sharing
+
+# Team Members
+
+• Dineth Hitihamu
+
+• Menuka Sankalpa
+
+• Vinodith Peiris
+
+• Shan Romesh
+
+• Manodya Kalhara
