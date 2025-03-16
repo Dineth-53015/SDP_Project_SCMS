@@ -71,8 +71,12 @@ PHPMailer Folder: https://drive.google.com/drive/folders/1hqnNzwuIrjSX4STMyLwp09
 
 # Login Credentials for System Access
 
+The following credentials are available for logging into the system based on user roles:
+
 | Role            | Username       | Password      |
 | :---            |     :---:      |     :---:     |
 | Administrator   | Admin          | Password      |
 | Lecturer        | Lecturer       | Password      |
 | Student         | Student        | Password      |
+
+These credentials are set for initial access and can be modified as needed.
