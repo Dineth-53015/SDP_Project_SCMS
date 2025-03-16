@@ -68,3 +68,11 @@ PHPMailer Folder: https://drive.google.com/drive/folders/1hqnNzwuIrjSX4STMyLwp09
 • Shan Romesh
 
 • Manodya Kalhara
+
+# Login Credentials for System Access
+
+| Role            | Username       | Password      |
+| :---            |     :---:      |     :---:     |
+| Administrator   | Admin          | Password      |
+| Lecturer        | Lecturer       | Password      |
+| Student         | Student        | Password      |
