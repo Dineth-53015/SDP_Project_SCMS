@@ -15,6 +15,35 @@ $otp = $data['otp'];
 if ($otp == $_SESSION['otp']) {
     $registration_data = $_SESSION['registration_data'];
 
+    // Function to check if username or email already exists
+    function checkExistingUser($conn, $username, $email) {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+        $stmt->bind_param("ss", $username, $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result->num_rows > 0;
+    }
+
+    // Check if username or email already exists
+    if (checkExistingUser($conn, $registration_data['username'], $registration_data['email'])) {
+        $stmt_check = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+        $stmt_check->bind_param("ss", $registration_data['username'], $registration_data['email']);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        $stmt_check->close();
+
+        if ($result_check->num_rows > 0) {
+            $row = $result_check->fetch_assoc();
+            if ($row['username'] == $registration_data['username']) {
+                echo json_encode(['success' => false, 'message' => 'Username already exists']);
+            } elseif ($row['email'] == $registration_data['email']) {
+                echo json_encode(['success' => false, 'message' => 'Email already exists']);
+            }
+            exit();
+        }
+    }
+
     // Hash the password
     $hashed_password = password_hash($registration_data['password'], PASSWORD_DEFAULT);
 
@@ -38,7 +67,6 @@ if ($otp == $_SESSION['otp']) {
         }
         
         $stmt_notification->close();
-        //echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Sorry, something went wrong creating your account. Please try again later.']);
     }
