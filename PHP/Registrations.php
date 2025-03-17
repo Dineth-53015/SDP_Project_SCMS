@@ -40,12 +40,12 @@ if ($otp == $_SESSION['otp']) {
         $stmt_notification->close();
         //echo json_encode(['success' => true]);
     } else {
-        echo json_encode(['success' => false]);
+        echo json_encode(['success' => false, 'message' => 'Sorry, something went wrong creating your account. Please try again later.']);
     }
 
     $stmt->close();
 } else {
-    echo json_encode(['success' => false]);
+    echo json_encode(['success' => false, 'message' => 'Invalid OTP']);
 }
 
 $conn->close();
