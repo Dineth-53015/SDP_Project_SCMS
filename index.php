@@ -163,6 +163,13 @@
             soverlay.style.display = 'none';
         });
 
+        function clearOTPInputs() {
+            const otpInputs = document.querySelectorAll('#OTPForm input[type="text"]');
+            otpInputs.forEach(input => {
+                input.value = '';
+            });
+        }
+
         function handleInput(input) {
             if (input.value.length > 1) {
                 input.value = input.value.slice(0, 1);
@@ -220,7 +227,24 @@
                     alert("Registration successful! Your account will be reviewed as soon as possible by our staff and be approved.");
                     evoverlay.style.display = 'none';
                 } else {
-                    alert("OTP verification failed. Please try again.");
+                    // Check for specific error messages
+                    if (data.message === 'Email already exists') {
+                        alert("Email already exists. Please use a different email.");
+                        evoverlay.style.display = 'none';
+                        clearOTPInputs();
+                        overlay.style.display = 'flex';
+                    } else if (data.message === 'Username already exists') {
+                        alert("Username already exists. Please choose a different username.");
+                        evoverlay.style.display = 'none';
+                        clearOTPInputs();
+                        overlay.style.display = 'flex';
+                    } else if (data.message === 'Invalid OTP') {
+                        alert("OTP verification failed. Please try again.");
+                    } else {
+                        alert("Sorry, something went wrong. Please try again later.");
+                        evoverlay.style.display = 'none';
+                        clearOTPInputs();
+                    }
                 }
             })
             .catch(error => {
